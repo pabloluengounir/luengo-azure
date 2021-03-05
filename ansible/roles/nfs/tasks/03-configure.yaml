@@ -16,27 +16,18 @@
 - name: configure nfs step 2
   command: exportfs -s
   become: yes
-# - name: add nfs service to firewall
-#   command: firewall-cmd --permanent --add-service=nfs
-#   become: yes
 - name: permit traffic in default zone for nfs service
   ansible.posix.firewalld:
     service: nfs
     permanent: yes
     state: enabled
   become: yes
-# - name: add rpc-bid service to firewall
-#   command: firewall-cmd --permanent --add-service=rpc-bind
-#   become: yes
 - name: permit traffic in default zone for rpc-bind service
   ansible.posix.firewalld:
     service: rpc-bind
     permanent: yes
     state: enabled
   become: yes
-# - name: add mountd service to firewall
-#   command: firewall-cmd --permanent --add-service=mountd
-#   become: yes
 - name: permit traffic in default zone for mountd service
   ansible.posix.firewalld:
     service: mountd

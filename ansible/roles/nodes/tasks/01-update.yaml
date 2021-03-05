@@ -1,2 +1,3 @@
-- name: Update.
-  command: sudo dnf update -y
+- name: update
+  command: dnf update -y
+  become: yes

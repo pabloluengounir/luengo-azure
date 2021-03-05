@@ -1,34 +1,22 @@
-# - name: set timezone to Europe/Madrid
-#   command: timedatectl set-timezone Europe/Madrid
-#   become: yes
 - name: set timezone to Europe/Madrid
   community.general.timezone:
     name: Europe/Madrid
   become: yes
-# - name: install chrony
-#   command: dnf install chrony -y
-#   become: yes
 - name: install the latest version of chrony
   dnf:
     name: chrony
     state: latest
   become: yes
-# - name: enable chrony
-#   command: systemctl enable chronyd
-#   become: yes
 - name: enable chrony service
   systemd:
     name: chronyd
     enabled: yes
   become: yes
-# - name: start chrony
-#   command: systemctl start chronyd
-#   become: yes
 - name: make sure chrony service is running
   systemd:
     state: started
     name: chronyd
   become: yes
-- name: enable ntp
+- name: enable set-ntp
   command: timedatectl set-ntp true
   become: yes

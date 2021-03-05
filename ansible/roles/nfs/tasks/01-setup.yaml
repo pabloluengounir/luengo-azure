@@ -8,7 +8,7 @@
     path: /srv/nfs
     state: directory
   become: yes
-- name: Add a line to a file if the file does not exist, without passing regexp
+- name: add a line to a file if the file does not exist, without passing regexp
   ansible.builtin.lineinfile:
     path: /etc/fstab
     line: /dev/sdc        /srv/nfs                xfs     defaults        0 0

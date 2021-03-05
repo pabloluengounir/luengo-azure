@@ -1,3 +1,4 @@
+# Definicion de un grupo de seguridad de red que permite el acceso mediante SSH
 resource "azurerm_network_security_group" "mySecGroup" {
   name = "sshtraffic"
   location = azurerm_resource_group.rg.location
@@ -20,6 +21,7 @@ resource "azurerm_network_security_group" "mySecGroup" {
   }
 }
 
+# Asociacion del grupo de seguridad de red a la subred creada en network.tf
 resource "azurerm_subnet_network_security_group_association" "mySecGroupAssociation1" {
   subnet_id = azurerm_subnet.mySubnet.id
   network_security_group_id = azurerm_network_security_group.mySecGroup.id

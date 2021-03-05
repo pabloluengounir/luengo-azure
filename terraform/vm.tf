@@ -8,6 +8,7 @@ resource "azurerm_linux_virtual_machine" "myVM" {
   network_interface_ids           = [azurerm_network_interface.myNic[count.index].id]
   disable_password_authentication = true
 
+  #usuario y key para acceder mediante SSh a la maquina
   admin_ssh_key {
     username   = "adminLuengo"
     public_key = file("../id_rsa.pub")
@@ -24,6 +25,7 @@ resource "azurerm_linux_virtual_machine" "myVM" {
     publisher = "cognosys"
   }
 
+  # imagen a utilizar por la maquina
   source_image_reference {
     publisher = "cognosys"
     offer     = "centos-8-stream-free"
@@ -40,6 +42,7 @@ resource "azurerm_linux_virtual_machine" "myVM" {
   }
 }
 
+# Definicion de un disco duro adicional que luego sera añadido a las maquinas
 resource "azurerm_managed_disk" "nfsMD" {
   name                 = "data-${var.vms[count.index]}"
   count                = length(var.vms)
@@ -50,6 +53,7 @@ resource "azurerm_managed_disk" "nfsMD" {
   disk_size_gb         = 32
 }
 
+# Asignacion de un disco duro a una maquina virtual
 resource "azurerm_virtual_machine_data_disk_attachment" "nfsDA" {
   count              = length(var.vms)
   managed_disk_id    = azurerm_managed_disk.nfsMD[count.index].id

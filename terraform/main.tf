@@ -7,6 +7,7 @@ terraform {
   }
 }
 
+# Proveedor Azure
 provider "azurerm" {
     features {}
     subscription_id = "e1e77243-7152-44ac-b403-de283ff0fcc5"
@@ -15,6 +16,7 @@ provider "azurerm" {
     tenant_id = "899789dc-202f-44b4-8472-a6d40f9eb440"
 }
 
+# Grupo de recursos donde se guardan el resto de recursos
 resource "azurerm_resource_group" "rg" {
   name = "kubernetes_rg"
   location = var.location
@@ -24,6 +26,7 @@ resource "azurerm_resource_group" "rg" {
   }
 }
 
+# Definicion de cuenta de almacenamiento
 resource "azurerm_storage_account" "stAccount" {
   name = "luengostaccountcp2"
   resource_group_name = azurerm_resource_group.rg.name

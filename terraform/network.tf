@@ -1,3 +1,4 @@
+# Red Virtual con IPs 10.0.0.0/16
 resource "azurerm_virtual_network" "myNet" {
     name = "kubernetesnet"
     address_space = [ "10.0.0.0/16" ]
@@ -9,6 +10,7 @@ resource "azurerm_virtual_network" "myNet" {
     }
 }
 
+# Subred con IPs 10.0.1.0/24
 resource "azurerm_subnet" "mySubnet" {
   name = "terraformsubnet"
   resource_group_name = azurerm_resource_group.rg.name
@@ -16,6 +18,7 @@ resource "azurerm_subnet" "mySubnet" {
   address_prefixes = ["10.0.1.0/24"]
 }
 
+# Creacion de 1 IP publica por cada VM
 resource "azurerm_public_ip" "myPublicIp" {
   name = "vmip${var.vms[count.index]}"
   count = length(var.vms)
@@ -29,6 +32,7 @@ resource "azurerm_public_ip" "myPublicIp" {
   }
 }
 
+# Creacion de 1 interfaz de red por cada VM
 resource "azurerm_network_interface" "myNic" {
   name = "nic-${var.vms[count.index]}"
   count = length(var.vms)

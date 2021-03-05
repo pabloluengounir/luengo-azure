@@ -1,3 +1,4 @@
 ---
 
+# Variable donde se guardara el comando join para lanzar luego en los workers
 add_worker_command: ''

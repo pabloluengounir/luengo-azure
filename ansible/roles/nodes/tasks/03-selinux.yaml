@@ -1,7 +1,4 @@
-# - name: disable SELinux
-#   command: sed -i s/=enforcing/=disabled/g /etc/selinux/config
-#   become: yes
-- name: Disable SELinux
+- name: disable SELinux
   ansible.posix.selinux:
     state: disabled
   become: yes

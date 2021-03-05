@@ -1,11 +1,11 @@
-- name: permit ports
+- name: permit ports 10250/tcp
   ansible.posix.firewalld:
     port: 10250/tcp
     permanent: yes
     zone: public
     state: enabled
   become: yes
-- name: permit ports
+- name: permit ports 30000-32767/tcp
   ansible.posix.firewalld:
     port: 30000-32767/tcp
     permanent: yes
