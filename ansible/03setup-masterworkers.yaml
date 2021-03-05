@@ -1,0 +1,12 @@
+---
+
+- name: setup master
+  hosts: masters
+  gather_facts: false
+  roles:
+    - masterworkers
+- name: setup workers
+  hosts: workers
+  gather_facts: false
+  roles:
+    - masterworkers

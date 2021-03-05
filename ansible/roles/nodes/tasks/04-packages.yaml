@@ -1,0 +1,19 @@
+# - name: install packages
+#   command: dnf install nfs-utils nfs4-acl-tools wget -y
+#   become: yes
+- name: install the latest version of nfs-utils
+  dnf:
+    name: nfs-utils
+    state: latest
+  become: yes
+- name: install the latest version of nfs4-acl-tools
+  dnf:
+    name: nfs4-acl-tools
+    state: latest
+  become: yes
+- name: install the latest version of wget
+  dnf:
+    name: wget
+    state: latest
+  become: yes
+  

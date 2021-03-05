@@ -1,0 +1,7 @@
+---
+
+- name: install NFS
+  hosts: nfs
+  gather_facts: false
+  roles:
+    - nfs

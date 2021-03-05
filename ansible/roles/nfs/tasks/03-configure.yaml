@@ -1,0 +1,50 @@
+- name: config NFS share access
+  blockinfile: 
+    create: yes
+    path: /etc/exports
+    block: |
+      /srv/nfs   {{ masterip }}(rw,sync)
+      /srv/nfs   {{ worker0ip }}(rw,sync)
+      /srv/nfs   {{ worker1ip }}(rw,sync)
+  become: yes
+- name: check /etc/exports content
+  command: cat /etc/exports
+  become: yes
+- name: configure nfs step 1
+  command: exportfs -r
+  become: yes
+- name: configure nfs step 2
+  command: exportfs -s
+  become: yes
+# - name: add nfs service to firewall
+#   command: firewall-cmd --permanent --add-service=nfs
+#   become: yes
+- name: permit traffic in default zone for nfs service
+  ansible.posix.firewalld:
+    service: nfs
+    permanent: yes
+    state: enabled
+  become: yes
+# - name: add rpc-bid service to firewall
+#   command: firewall-cmd --permanent --add-service=rpc-bind
+#   become: yes
+- name: permit traffic in default zone for rpc-bind service
+  ansible.posix.firewalld:
+    service: rpc-bind
+    permanent: yes
+    state: enabled
+  become: yes
+# - name: add mountd service to firewall
+#   command: firewall-cmd --permanent --add-service=mountd
+#   become: yes
+- name: permit traffic in default zone for mountd service
+  ansible.posix.firewalld:
+    service: mountd
+    permanent: yes
+    state: enabled
+  become: yes
+- name: reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+  become: yes

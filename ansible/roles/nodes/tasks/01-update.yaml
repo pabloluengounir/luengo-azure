@@ -1,0 +1,2 @@
+- name: Update.
+  command: sudo dnf update -y

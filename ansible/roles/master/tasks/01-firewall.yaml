@@ -1,0 +1,73 @@
+- name: permit 6443/tcp port
+  ansible.posix.firewalld:
+    port: 6443/tcp
+    permanent: yes
+    state: enabled
+  become: yes
+- name: permit 2379-2380/tcp port
+  ansible.posix.firewalld:
+    port: 2379-2380/tcp
+    permanent: yes
+    state: enabled
+  become: yes
+- name: permit 10250/tcp port
+  ansible.posix.firewalld:
+    port: 10250/tcp
+    permanent: yes
+    state: enabled
+  become: yes
+- name: permit 10251/tcp port
+  ansible.posix.firewalld:
+    port: 10251/tcp
+    permanent: yes
+    state: enabled
+  become: yes
+- name: permit 10252/tcp port
+  ansible.posix.firewalld:
+    port: 10252/tcp
+    permanent: yes
+    state: enabled
+  become: yes
+- name: permit 10255/tcp port
+  ansible.posix.firewalld:
+    port: 6443/tcp
+    permanent: yes
+    state: enabled
+  become: yes
+- name: reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+  become: yes
+- name: config kudeadm
+  command: kubeadm config images pull
+  become: yes
+- name: add worker 0 access firewall
+  ansible.posix.firewalld:
+    rich_rule: rule family=ipv4 source address=192.168.1.111/32 accept
+    permanent: yes
+    state: enabled
+  become: yes
+- name: adadd worker 1 access firewall
+  ansible.posix.firewalld:
+    rich_rule: rule family=ipv4 source address=192.168.1.112/32 accept
+    permanent: yes
+    state: enabled
+  become: yes
+- name: reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+  become: yes
+- name: allow access container to localhost
+  ansible.posix.firewalld:
+    rich_rule: rule family=ipv4 source address=172.17.0.0/16 accept
+    zone: public
+    permanent: yes
+    state: enabled
+  become: yes
+- name: reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+  become: yes

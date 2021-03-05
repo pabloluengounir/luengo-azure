@@ -1,0 +1,70 @@
+- name: config DNS share access
+  blockinfile: 
+    create: yes
+    path: /etc/hosts
+    block: |
+      10.0.1.10 master master.luengo.es
+      10.0.1.11 worker0 worker0.luengo.es
+      10.0.1.12 worker1 worker1.luengo.es
+      10.0.1.13 nfs nfs.luengo.es
+  become: yes
+- name: add the br_netfilter module
+  community.general.modprobe:
+    name: br_netfilter
+    state: present
+  become: yes
+- name: add masquerade
+  ansible.posix.firewalld:
+    masquerade: yes
+    state: enabled
+    permanent: yes
+  become: yes
+- name: reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+  become: yes
+- name: config DNS share access
+  blockinfile: 
+    create: yes
+    path: /etc/sysctl.d/k8s.conf
+    block: |
+      net.bridge.bridge-nf-call-ip6tables = 1
+      net.bridge.bridge-nf-call-iptables = 1
+  become: yes
+- name: apply changes
+  command: sysctl --system
+  become: yes
+- name: permit ports
+  ansible.posix.firewalld:
+    port: 5543/tcp
+    permanent: yes
+    zone: public
+    state: enabled
+  become: yes
+- name: permit ports
+  ansible.posix.firewalld:
+    port: 179/tcp
+    permanent: yes
+    zone: public
+    state: enabled
+  become: yes
+- name: reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+  become: yes
+# - name: swap off
+#   command: swapoff  -a
+#   become: yes
+# - name: EOF k8s.conf
+#   sysctl:
+#     name: kernel.panic
+#     state: present
+#     sysctl_file: /etc/sysctl.d/k8s.conf
+#     reload: yes
+# - name: remove swap line in /etc/fstab
+#       replace:
+#         path: /etc/fstab
+#         regexp: '/dev/mapper/cs-swap     none                    swap    defaults        0 0'
+#         replace: ''

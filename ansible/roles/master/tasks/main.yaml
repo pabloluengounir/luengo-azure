@@ -1,0 +1,5 @@
+---
+
+- include_tasks: 01-firewall.yaml
+- include_tasks: 02-cni.yaml
+- include_tasks: 03-sdn.yaml

@@ -1,0 +1,19 @@
+- name: create a ext2 filesystem on /dev/sdc
+  filesystem:
+    fstype: xfs
+    dev: /dev/sdc
+  become: yes
+- name: create a directory if it does not exist
+  file:
+    path: /srv/nfs
+    state: directory
+  become: yes
+- name: Add a line to a file if the file does not exist, without passing regexp
+  ansible.builtin.lineinfile:
+    path: /etc/fstab
+    line: /dev/sdc        /srv/nfs                xfs     defaults        0 0
+    create: yes
+  become: yes
+- name: check correct setup 1
+  command: mount -a
+  become: yes

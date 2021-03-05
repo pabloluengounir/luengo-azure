@@ -1,0 +1,15 @@
+[nodes]
+137.117.183.18  ansible_user=adminLuengo
+13.73.161.132  ansible_user=adminLuengo
+13.73.161.137  ansible_user=adminLuengo
+13.73.166.9  ansible_user=adminLuengo
+
+[nfs]
+13.73.161.132  ansible_user=adminLuengo
+
+[masters]
+137.117.183.18  ansible_user=adminLuengo
+
+[workers]
+13.73.161.137  ansible_user=adminLuengo
+13.73.166.9  ansible_user=adminLuengo

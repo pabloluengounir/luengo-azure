@@ -1,0 +1,19 @@
+- name: permit ports
+  ansible.posix.firewalld:
+    port: 10250/tcp
+    permanent: yes
+    zone: public
+    state: enabled
+  become: yes
+- name: permit ports
+  ansible.posix.firewalld:
+    port: 30000-32767/tcp
+    permanent: yes
+    zone: public
+    state: enabled
+  become: yes
+- name: reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+  become: yes

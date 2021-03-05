@@ -1,0 +1,36 @@
+- name: install Tigera
+  command: kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
+  become: yes
+- name: download Calico
+  get_url:
+    url: https://docs.projectcalico.org/manifests/custom-resources.yaml
+    dest: /tmp/custom-resources.yaml
+    mode: '0440'
+- name: Config custom-template.yaml
+  ansible.builtin.replace:
+    path: /tmp/custom-resources.yaml
+    regexp: '192.168.0.0/16'
+    replace: '192.169.0.0/16'
+- name: install Calico 
+  command: kubectl apply -f /tmp/custom-resources.yaml
+  become: yes
+- name: permit 8285/udp port
+  ansible.posix.firewalld:
+    port: 8285/udp
+    permanent: yes
+    state: enabled
+  become: yes
+- name: permit 8472/udp port
+  ansible.posix.firewalld:
+    port: 8472/udp
+    permanent: yes
+    state: enabled
+  become: yes
+- name: Pause for 2 minutes to build app cache
+  pause:
+    minutes: 2
+- name: download and apply canal.yaml 
+  command: kubectl apply -f https://docs.projectcalico.org/manifests/canal.yaml
+  become: yes
+
+

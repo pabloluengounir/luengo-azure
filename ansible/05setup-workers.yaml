@@ -1,0 +1,7 @@
+---
+
+- name: setup master
+  hosts: workers
+  gather_facts: false
+  roles:
+    - workers

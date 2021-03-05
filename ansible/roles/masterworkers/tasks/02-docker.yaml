@@ -1,0 +1,16 @@
+- name: Add docker repo
+  command: dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+  become: yes
+- name: install docker and containerd
+  command: dnf install docker-ce-cli-19.03.14-3.el8 docker-ce-19.03.14-3.el8 containerd.io -y
+  become: yes
+- name: enable service docker
+  systemd:
+    name: docker
+    enabled: yes
+  become: yes
+- name: start service docker
+  systemd:
+    name: docker
+    state: started
+  become: yes

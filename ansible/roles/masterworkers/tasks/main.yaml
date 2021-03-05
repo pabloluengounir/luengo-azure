@@ -1,0 +1,5 @@
+---
+
+- include_tasks: 01-setup.yaml
+- include_tasks: 02-docker.yaml
+- include_tasks: 03-k8s.yaml

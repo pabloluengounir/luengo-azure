@@ -1,0 +1,29 @@
+# - name: install NFS packages
+#   command: dnf install nfs-utils net-tools -y
+#   become: yes
+- name: install the latest version of nfs-utils
+  dnf:
+    name: nfs-utils
+    state: latest
+  become: yes
+- name: install the latest version of net-tools
+  dnf:
+    name: net-tools
+    state: latest
+  become: yes
+# - name: enable nfs-server
+#   command: systemctl  enable nfs-server
+#   become: yes
+- name: enable service nfs-server
+  systemd:
+    name: nfs-server
+    enabled: yes
+  become: yes
+# - name: start nfs-server
+#   command: systemctl start nfs-server
+#   become: yes
+- name: make sure nfs-server service is running
+  systemd:
+    state: started
+    name: nfs-server
+  become: yes

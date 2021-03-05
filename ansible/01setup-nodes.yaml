@@ -1,0 +1,8 @@
+---
+
+- name: update vms
+  hosts: nodes
+  gather_facts: false
+  roles:
+    - nodes
+
